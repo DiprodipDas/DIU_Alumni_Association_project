@@ -17,6 +17,15 @@ import Dashboard from './pages/dashboard/Dashboard.jsx'
 import UpEvents from './pages/home/UpEvents.jsx'
 import About from './pages/home/About.jsx'
 import Contact from './pages/home/Contact.jsx'
+import AlumniEvents from './pages/home/AlumniEvents.jsx'
+import ReunionEvents from './pages/home/ReunionEvents.jsx'
+import DepartmentalReunionEvents from './pages/home/DepartmentalReunionEvents.jsx'
+import CareerEvents from './pages/home/CareerEvents.jsx'
+import IftaarEvents from './pages/home/IftaarEvents.jsx'
+import LeadershipDetail from './pages/home/LeadershipDetail.jsx'
+import TeamSection from './pages/home/TeamSection.jsx'
+import AlumniLogin from './components/AlumniLogin.jsx'
+import AlumniDashboard from './components/AlumniDashboard.jsx'
 
 createRoot(document.getElementById('root')).render(
   <AuthProvider>
@@ -30,6 +39,14 @@ createRoot(document.getElementById('root')).render(
           <Route path='/upevents' element={<div>{<UpEvents/>}</div>} />
           <Route path='/about' element={<div>{<About/>}</div>} />
           <Route path='/contact' element={<div>{<Contact/>}</div>} />
+          {/* <Route path="/events/alumni-events" element={<AlumniEvents />} /> */}
+          {/* <Route path="/events/reunion" element={<ReunionEvents />} /> */}
+          <Route path="/events/departmental-reunion" element={<DepartmentalReunionEvents />} />
+           <Route path="/leadership/:id" element={<LeadershipDetail />} />
+           <Route path="/leadership" element={<TeamSection />} />
+          {/* <Route path="/events/career-events" element={<CareerEvents />} /> */}
+          {/* <Route path="/events/iftaar-event" element={<IftaarEvents />} /> */}
+          {/* <Route path='/alumnigallary' element={<div>{<AlumniGallery/>}</div>} /> */}
 
 
           <Route path='*' element={<div><ErrorPage /></div>} />
@@ -37,8 +54,11 @@ createRoot(document.getElementById('root')).render(
         </Route>
         <Route path='/register' element={<Register />} />
         <Route path='/login' element={<Login />} />
+         <Route path='/alumni/login' element={<AlumniLogin />} />
+         <Route path='/alumni/alumnidashboard' element={<AlumniDashboard />} />
 
         <Route path='/dashboard' element={<PrivateRoute><Dashboard></Dashboard></PrivateRoute>} />
+        {/* <Route path='alumni/alumnidashboard' element={<PrivateRoute><AlumniDashboard></AlumniDashboard></PrivateRoute>} /> */}
       </Routes>
     </BrowserRouter>
   </AuthProvider>

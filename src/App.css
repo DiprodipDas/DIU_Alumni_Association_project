@@ -36,3 +36,19 @@ transform: translateX(-100%);
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
 }
+
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-25%); } /* 4 copies → move only 25% */
+}
+
+.animate-marquee {
+  display: flex;
+  animation: marquee 25s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
