@@ -1,6 +1,7 @@
 // src/components/AlumniDashboard.jsx
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAlumniAuth } from '../context/AlumniAuthContext';
 
 const AlumniDashboard = () => {
   const [data, setData] = useState(null);
@@ -14,6 +15,13 @@ const AlumniDashboard = () => {
 
   const navigate = useNavigate();
   const API_BASE = "http://localhost:8081";
+
+  const { alumniLogout } = useAlumniAuth(); // ← NEW: Get logout from context
+
+  const handleLogout = () => {
+    alumniLogout();   // Centralized logout (same as navbar)
+    navigate('/');    // Go to home (or change to '/alumni/login')
+  };
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -78,19 +86,6 @@ const AlumniDashboard = () => {
       setJobs(newData.jobs || []);
     } catch (err) {
       setError(err.message);
-    }
-  };
-
-  const handleLogout = async () => {
-    try {
-      await fetch(`${API_BASE}/api/alumni/logout`, {
-        method: "POST",
-        credentials: "include",
-      });
-    } catch (err) {
-      console.error("Logout error:", err);
-    } finally {
-      navigate("/alumni/login");
     }
   };
 

@@ -12,6 +12,7 @@ import Blogs from './pages/home/Blogs.jsx'
 import Register from './components/Register.jsx'
 import Login from './components/Login.jsx'
 import AuthProvider from './context/AuthContext.jsx'
+import { AlumniAuthProvider } from './context/AlumniAuthContext.jsx'
 import PrivateRoute from './routes/PrivateRoute.jsx'
 import Dashboard from './pages/dashboard/Dashboard.jsx'
 import UpEvents from './pages/home/UpEvents.jsx'
@@ -29,8 +30,10 @@ import AlumniDashboard from './components/AlumniDashboard.jsx'
 
 createRoot(document.getElementById('root')).render(
   <AuthProvider>
-    <BrowserRouter>
-      <Routes>
+
+      <BrowserRouter>
+      <AlumniAuthProvider>
+        <Routes>
         <Route element={<App />}>
           <Route path='/' element={<Home></Home>} />
           <Route path='/membership' element={<div>{<Pricing />}</div>} />
@@ -59,7 +62,8 @@ createRoot(document.getElementById('root')).render(
 
         <Route path='/dashboard' element={<PrivateRoute><Dashboard></Dashboard></PrivateRoute>} />
         {/* <Route path='alumni/alumnidashboard' element={<PrivateRoute><AlumniDashboard></AlumniDashboard></PrivateRoute>} /> */}
-      </Routes>
+      </Routes> 
+      </AlumniAuthProvider>
     </BrowserRouter>
   </AuthProvider>
 )

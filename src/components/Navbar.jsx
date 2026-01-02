@@ -1,13 +1,29 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useAlumniAuth } from '../context/AlumniAuthContext'; // ← New import
 
 const Navbar = () => {
-  const { user, logout } = useAuth();
+  const { isAlumniAuthenticated, alumniLogout, alumniLoading, alumniUser } = useAlumniAuth();
+  const navigate = useNavigate();
 
-  const handleLogOut = () => {
-    logout();
+  const handleAlumniLogout = () => {
+    alumniLogout();     // Calls your backend logout endpoint
+    navigate('/');      // Redirect to home after logout
   };
+
+
+  if (alumniLoading) {
+    return (
+      <div className="bg-white shadow-md border-b border-gray-100 sticky top-0 z-50 w-full">
+        <div className="px-4 sm:px-6 lg:px-12 xl:px-20">
+          <div className="flex justify-center items-center h-16 md:h-20">
+            <span className="text-gray-600">Loading...</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -390,30 +406,32 @@ const Navbar = () => {
 
             {/* Auth Buttons */}
             <div className="flex items-center gap-2 sm:gap-3">
-              {user ? (
+              {isAlumniAuthenticated ? (
                 <>
-                  {/* User Email - Hidden on very small screens */}
-                  <span className="hidden sm:block text-xs sm:text-sm text-gray-600 truncate max-w-32">
-                    {user.email}
-                  </span>
+                  {/* Optional: Show alumni name/email */}
+                  {alumniUser && (
+                    <span className="hidden sm:block text-xs sm:text-sm text-gray-600 truncate max-w-32">
+                      {alumniUser.name || alumniUser.EMAIL || 'Alumni'}
+                    </span>
+                  )}
 
                   {/* Dashboard Button */}
                   <Link
-                    to="/alumni/alumnidashboard"
+                    to="/alumni/alumnidashboard"  // ← Change if your dashboard route is different
                     className="px-4 py-1.5 text-xs sm:px-6 sm:py-2 sm:text-base 
-                    border border-green-600 text-green-600 rounded-lg 
-                    hover:bg-green-600 hover:text-white font-medium 
-                    transition whitespace-nowrap"
+        border border-green-600 text-green-600 rounded-lg 
+        hover:bg-green-600 hover:text-white font-medium 
+        transition whitespace-nowrap"
                   >
                     Dashboard
                   </Link>
 
                   {/* Logout Button */}
                   <button
-                    onClick={handleLogOut}
+                    onClick={handleAlumniLogout}
                     className="px-4 py-1.5 text-xs sm:px-6 sm:py-2 sm:text-base 
-                    bg-red-600 hover:bg-red-700 text-white rounded-lg 
-                    font-medium transition whitespace-nowrap"
+        bg-red-600 hover:bg-red-700 text-white rounded-lg 
+        font-medium transition whitespace-nowrap"
                   >
                     Log Out
                   </button>
@@ -424,9 +442,9 @@ const Navbar = () => {
                   <Link
                     to="/alumni/login"
                     className="px-3 py-1 text-xs sm:px-6 sm:py-2 sm:text-base 
-                    border border-green-600 text-green-600 rounded-lg 
-                    hover:bg-green-600 hover:text-white font-medium 
-                    transition whitespace-nowrap"
+        border border-green-600 text-green-600 rounded-lg 
+        hover:bg-green-600 hover:text-white font-medium 
+        transition whitespace-nowrap"
                   >
                     Log In
                   </Link>
@@ -435,8 +453,8 @@ const Navbar = () => {
                   <Link
                     to="/membership"
                     className="px-3 py-1 text-xs sm:px-6 sm:py-2 sm:text-base 
-                    bg-green-600 hover:bg-green-700 text-white rounded-lg 
-                    font-medium transition whitespace-nowrap"
+        bg-green-600 hover:bg-green-700 text-white rounded-lg 
+        font-medium transition whitespace-nowrap"
                   >
                     Membership Plan
                   </Link>
